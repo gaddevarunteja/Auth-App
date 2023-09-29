@@ -30,33 +30,39 @@ module.exports.profile = function(req, res) {
 
 module.exports.create = async function(req, res) {
     if(req.body.password != req.body.confirm_password) {
+        req.flash('error', 'passwords dont match');
         return res.redirect('back');
     }
-    let user = await User.findOne({email: req.body.email});
-    // function(err, user) {
-    //     if(err) {
-    //         console.log('Error in finding the password');
-    //         return;
-    //     }
-    if(!user) {
-        User.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
-        })
-        // , function(err, user) {
-        //     if(err) {console.log('error in creating user'); return;}
-        return res.redirect('/users/sign-in');
-    } else res.redirect('back');
+    try {
+        let user = await User.findOne({email: req.body.email});
+        if(!user) {
+            User.create({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password
+            });
+            req.flash('success', 'You have signed up successfully');
+            return res.redirect('/users/sign-in');
+        } else {
+            req.flash('success', 'User already exists');
+            res.redirect('back');
+        }
+    } catch(err) {
+        if(err) {
+            req.flash('error', err);
+            return;
+        }
+    }
 }
 
 module.exports.createSession = function(req, res) {
+    req.flash('success', 'Logged in Successfully');
     return res.redirect('/users/profile');
 }
 
-module.exports.destroySession = function(req, res, next) {
+module.exports.destroySession = function(req, res) {
     req.logout(function(err) {
-        if(err) {next(err);}
+        req.flash('success', 'You have logged out');
         return res.redirect('/');
     });
 }
