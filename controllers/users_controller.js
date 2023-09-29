@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const bcrypt = require('bcrypt');
 
 // render sign up page
 module.exports.signUp = function(req, res) {
@@ -36,10 +37,11 @@ module.exports.create = async function(req, res) {
     try {
         let user = await User.findOne({email: req.body.email});
         if(!user) {
+            let hash = await bcrypt.hash(req.body.password, 10);
             User.create({
                 name: req.body.name,
                 email: req.body.email,
-                password: req.body.password
+                password: hash
             });
             req.flash('success', 'You have signed up successfully');
             return res.redirect('/users/sign-in');

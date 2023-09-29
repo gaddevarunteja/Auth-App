@@ -1,6 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
 
 passport.use(new LocalStrategy({
         usernameField: 'email',
@@ -8,7 +9,7 @@ passport.use(new LocalStrategy({
     }, async function(req, email, password, done) {
         try {
             let user = await User.findOne({email: email}); 
-            if(!user || password != user.password) {
+            if(!user || await bcrypt.compare(password, user.password) == false) {
                 req.flash('error', 'Invalid Username/Password');
                 return done(null, false);
             }
