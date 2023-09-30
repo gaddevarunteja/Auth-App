@@ -1,0 +1,27 @@
+body {
+    margin: auto;
+}
+
+#layout-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 10px;
+    background: #2196f3;
+    color: white;
+    box-shadow: 1px 1px 1px 1px lightgrey; 
+}
+
+#layout-header .auth-links ul {
+    margin: 5px 5px;
+    display: flex;
+    list-style: none; 
+}
+
+#layout-header .auth-links ul li {
+    margin-right: 15px; 
+}
+
+#layout-header a {
+    color: #fff;
+    text-decoration: none; 
+}
