@@ -41,7 +41,7 @@ app.use(session({
     },
     store: MongoStore.create({
         mongooseConnection: db,
-        mongoUrl: 'mongodb://localhost/auth-db',
+        mongoUrl: process.env.MONGODB_URI,
         autoRemove: 'disabled'
     }, function(err) {
         if(err) { console.log(err)}
