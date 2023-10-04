@@ -19,6 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 // set up static folders
 app.use(express.static(path.join(__dirname, './assets')));
+app.use("/js", express.static(__dirname + "/assets/js"));
+app.use("/css", express.static(__dirname + "/assets/css"));
 
 // set ejs view engine
 app.set('view engine', 'ejs');
