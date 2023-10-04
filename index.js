@@ -24,7 +24,7 @@ app.use("/css", express.static(__dirname + "/assets/css"));
 
 // set ejs view engine
 app.set('view engine', 'ejs');
-app.set('views', './views');
+app.set('views', path.join(__dirname, '/views'));
 
 // use middleware for ejs layouts
 app.use(expressLayouts);
